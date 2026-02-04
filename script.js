@@ -62,7 +62,7 @@ async function viewEvent(id) {
 
 async function viewRegistrants() {
     const eventsContainer = document.getElementById('events');
-    eventsContainer.innerHTML = '<div class="loading">Loading events...</div>';
+    eventsContainer.innerHTML = '<div class="loading">Loading registrants...</div>';
 
     try {
         const response = await fetch(`https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/registrants/`);
@@ -90,6 +90,39 @@ async function viewRegistrants() {
             eventCard.innerHTML = html;
             eventsContainer.appendChild(eventCard);
         });
+
+    } catch (error) {
+        eventsContainer.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+    }
+}
+
+async function postRegistrant() {
+    const eventsContainer = document.getElementById('events');
+    eventsContainer.innerHTML = '<div class="loading">Creating Registrant...</div>';
+
+    try {
+        const response = await fetch(`https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/registrants/`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                createdAt: Date.now(),
+                email: 'test@test.com',
+                eventId: '698299439a4cac03e8a330cb',
+                eventTitle: 'Holiday of Hope',
+                fullName: 'Test Name',
+                guests: 5,
+                notes: 'Here are my notes.'
+            })
+        });
+        if (!response.ok) throw Error(response.message);
+
+        const data = await response.json();
+        console.log(data);
+
+        viewRegistrants();
 
     } catch (error) {
         eventsContainer.innerHTML = `<div class="error">Error: ${error.message}</div>`;
