@@ -28,12 +28,12 @@ class Template {
     createEventListCard(event, crud) {
         const eventCard = document.createElement('div');
         eventCard.classList.add('event-card');
-        eventCard.dataset.id = event._id;
-        eventCard.dataset.location = event.location;
+
         let html = 
         `<h3>${event.title}</h3>
         <p>${event.location}</p>
         <p>${event.description}</p>`;
+
         eventCard.innerHTML = html;
 
         const eventButton = document.createElement('button');
@@ -49,8 +49,6 @@ class Template {
     createEventCard(event, crud) {
         const eventCard = document.createElement('div');
         eventCard.classList.add('event-card');
-        eventCard.dataset.id = event._id;
-        eventCard.dataset.location = event.location;
 
         let html = 
         `<img class="event-card--image" src="${event.imageUrl}" alt="${event.title}" />
@@ -61,6 +59,7 @@ class Template {
         <p>category: ${event.category}</p>
         <p>featured: ${event.featured}</p>
         <p>capacity: ${event.capacity}</p>`;
+
         eventCard.innerHTML = html;
 
         this.eventsDiv.appendChild(eventCard);
