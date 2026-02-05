@@ -79,18 +79,8 @@ class Crud {
         const createdAt = new Date(Date.now()).toISOString();
 
         const formContainer = document.getElementById(`form_${eventId}`);
-        const fullName =  document.getElementById(`name_${eventId}`).value;
-        const email =  document.getElementById(`email_${eventId}`).value;
-        const guests =  document.getElementById(`guests_${eventId}`).value;
-        const notes =  document.getElementById(`notes_${eventId}`).value;
-
-        if(!fullName || !email || !guests) {
-            this.template.updateMessage('<div class="error">Error: Please fill out the required fields.</div>');
-            return;
-        }
-        if(!notes) {
-            notes = '';
-        }
+        const formData = this.createFormData(eventId);
+        if(!formData) return;
 
         try {
             const response = await fetch(this.registrantsUrl, {
@@ -101,16 +91,18 @@ class Crud {
                 body: JSON.stringify({
                     eventId: eventId,
                     eventTitle: eventTitle,
-                    fullName: fullName,
-                    email: email,
-                    guests: guests,
-                    notes: notes,
+                    fullName: formData.fullName,
+                    email: formData.email,
+                    guests: formData.guests,
+                    notes: formData.notes,
                     createdAt: createdAt
                 })
             });
             if (!response.ok) throw Error(response.message);
 
-            this.viewRegistrants();
+            formContainer.remove();
+            this.template.updateMessage(`<div class="success">Thank you. Your registration has been received.</div>`);
+            this.viewRegistrants(eventId);
 
         } catch (error) {
             this.template.updateMessage(`<div class="error">Error: ${error.message}</div>`);
@@ -121,11 +113,9 @@ class Crud {
         this.template.updateMessage('<div class="loading">Updating registration...</div>');
         const createdAt = new Date(Date.now()).toISOString();
 
-        const formContainer = document.getElementById('registrantId');
-        const fullName =  document.getElementById(`name_${registrantId}`).value;
-        const email =  document.getElementById(`email_${registrantId}`).value;
-        const guests =  document.getElementById(`guests_${registrantId}`).value;
-        const notes =  document.getElementById(`notes_${registrantId}`).value;
+        const formContainer = document.getElementById(`form_${registrantId}`);
+        const formData = this.createFormData(registrantId);
+        if(!formData) return;
 
         try {
             const response = await fetch(`${this.registrantsUrl}${registrantId}`, {
@@ -136,19 +126,61 @@ class Crud {
                 body: JSON.stringify({
                     eventId: eventId,
                     eventTitle: eventTitle,
-                    fullName: fullName,
-                    email: email,
-                    guests: guests,
-                    notes: notes,
+                    fullName: formData.fullName,
+                    email: formData.email,
+                    guests: formData.guests,
+                    notes: formData.notes,
                     createdAt: createdAt
                 })
             });
             if (!response.ok) throw Error(response.message);
 
-            this.viewRegistrants();
+            this.viewRegistrants(eventId);
 
         } catch (error) {
             this.template.updateMessage(`<div class="error">Error: ${error.message}</div>`);
         }
+    }
+
+    createFormData(formId) {
+        const fullName =  this.sanitizeHTML(document.getElementById(`name_${formId}`).value);
+        const email =  this.sanitizeHTML(document.getElementById(`email_${formId}`).value);
+        const guests =  this.sanitizeHTML(document.getElementById(`guests_${formId}`).value);
+        const notes =  this.sanitizeHTML(document.getElementById(`notes_${formId}`).value);
+
+        if(!fullName || !email || !guests) {
+            this.template.updateMessage('<div class="error">Error: Please fill out the required fields.</div>');
+            return;
+        }
+
+        if(!this.isValidEmail(email)) {
+            this.template.updateMessage('<div class="error">Error: Please enter a correct email.</div>');
+            return;
+        }
+
+        return {
+            fullName: fullName,
+            email: fullName,
+            guests: guests,
+            notes: notes,
+        }
+    }
+
+    sanitizeHTML(str) {
+        return str.replace(/[&<>"'/]/g, function (char) {
+            const escapeMap = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;',
+                '/': '&#x2F;'
+            };
+            return escapeMap[char];
+        });
+    }
+
+    isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 }

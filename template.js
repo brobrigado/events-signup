@@ -112,21 +112,22 @@ class Template {
     createNewRegistrantForm(event, crud) {
         const registrantFormCard = document.createElement('div');
         registrantFormCard.classList.add('form-card');
+        registrantFormCard.setAttribute('id', `form_${event._id}`);
 
         let html = 
         `<h3>Register for ${event.title}</h3>
-        <div id="form_${event._id}" class="form">
+        <div class="form">
             <div class="input-group">
                 <label for="name">Name:</label>
-                <input id="name_${event._id}" placeholder="full name">
+                <input type="text" id="name_${event._id}" placeholder="full name" required>
             </div>
             <div class="input-group">
                 <label for="email">Email:</label>
-                <input id="email_${event._id}" placeholder="email">
+                <input type="text" id="email_${event._id}" placeholder="email" required>
             </div>
             <div class="input-group">
                 <label for="guests">Guests:</label>
-                <input id="guests_${event._id}" placeholder="amount of guests">
+                <input type="number" id="guests_${event._id}" placeholder="amount of guests" required>
             </div>
             <div class="input-group">
                 <label for="notes">Notes:</label>
