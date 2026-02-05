@@ -98,16 +98,50 @@ class Template {
         // html += `<button onclick="deleteRegistrant('${registrant._id}')">Delete</button>`;
         registrantCard.innerHTML = html;
 
-        registrantCard.innerHTML = html;
-
         const registrantUpdateButton = document.createElement('button');
         registrantUpdateButton.textContent = 'Update';
         registrantUpdateButton.addEventListener("click", () => {
             console.log(registrant._id);
             // crud.viewEvent(registrant._id);
         });
-        registrantCard.appendChild(registrantUpdateButton);
 
+        registrantCard.appendChild(registrantUpdateButton);
         this.registrantsDiv.appendChild(registrantCard);
+    }
+
+    createNewRegistrantForm(event, crud) {
+        const registrantFormCard = document.createElement('div');
+        registrantFormCard.classList.add('form-card');
+
+        let html = 
+        `<h3>Register for ${event.title}</h3>
+        <div id="form_${event._id}" class="form">
+            <div class="input-group">
+                <label for="name">Name:</label>
+                <input id="name_${event._id}" placeholder="full name">
+            </div>
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input id="email_${event._id}" placeholder="email">
+            </div>
+            <div class="input-group">
+                <label for="guests">Guests:</label>
+                <input id="guests_${event._id}" placeholder="amount of guests">
+            </div>
+            <div class="input-group">
+                <label for="notes">Notes:</label>
+                <textarea id="notes_${event._id}" placeholder="notes about registration"></textarea>
+            </div>
+        </div>`;
+        registrantFormCard.innerHTML = html;
+
+        const registrantFormSubmitButton = document.createElement('button');
+        registrantFormSubmitButton.textContent = 'Register';
+        registrantFormSubmitButton.addEventListener("click", () => {
+            crud.createRegistrant(event._id, event.title);
+        });
+
+        registrantFormCard.appendChild(registrantFormSubmitButton);
+        this.formsDiv.appendChild(registrantFormCard);
     }
 }

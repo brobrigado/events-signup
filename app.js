@@ -1,42 +1,4 @@
 
-async function viewRegistrants() {
-    const eventsContainer = document.getElementById('events');
-    eventsContainer.innerHTML = '<div class="loading">Loading registrants...</div>';
-
-    try {
-        const response = await fetch(`https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/registrants/`);
-        if (!response.ok) throw Error(response.message);
-
-        const data = await response.json();
-        // console.log(data);
-
-        if(!data) return;
-
-        eventsContainer.replaceChildren();
-
-        data.forEach(registrant => {            
-            const eventCard = document.createElement('div');
-            eventCard.classList.add('event-card');
-            eventCard.dataset.id = registrant._id;
-            let html = 
-            `<h3>${registrant.eventTitle}</h3>
-            <p>name: ${registrant.fullName}</p>
-            <p>email: ${registrant.email}</p>
-            <p>guests: ${registrant.guests}</p>`;
-            if(registrant.notes) {
-                html += `<p>notes: ${registrant.notes}</p>`;
-            }
-            html += `<button onclick="putRegistrant('${registrant._id}')">Update</button>`;
-            html += `<button onclick="deleteRegistrant('${registrant._id}')">Delete</button>`;
-            eventCard.innerHTML = html;
-            eventsContainer.appendChild(eventCard);
-        });
-
-    } catch (error) {
-        eventsContainer.innerHTML = `<div class="error">Error: ${error.message}</div>`;
-    }
-}
-
 async function postRegistrant() {
     const eventsContainer = document.getElementById('events');
     const createdAt = new Date(Date.now()).toISOString();

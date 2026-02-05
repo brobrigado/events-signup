@@ -41,6 +41,7 @@ class Crud {
             this.template.clear('events');
 
             this.template.createEventCard(data, this);
+            this.template.createNewRegistrantForm(data, this)
 
             this.viewRegistrants(eventId);
 
@@ -67,6 +68,84 @@ class Crud {
                     this.template.createRegistrantListCard(registrant, this);
                 }
             });
+
+        } catch (error) {
+            this.template.updateMessage(`<div class="error">Error: ${error.message}</div>`);
+        }
+    }
+
+    async createRegistrant(eventId, eventTitle) {
+        this.template.updateMessage('<div class="loading">Creating registration...</div>');
+        const createdAt = new Date(Date.now()).toISOString();
+
+        const formContainer = document.getElementById(`form_${eventId}`);
+        const fullName =  document.getElementById(`name_${eventId}`).value;
+        const email =  document.getElementById(`email_${eventId}`).value;
+        const guests =  document.getElementById(`guests_${eventId}`).value;
+        const notes =  document.getElementById(`notes_${eventId}`).value;
+
+        if(!fullName || !email || !guests) {
+            this.template.updateMessage('<div class="error">Error: Please fill out the required fields.</div>');
+            return;
+        }
+        if(!notes) {
+            notes = '';
+        }
+
+        try {
+            const response = await fetch(this.registrantsUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    eventId: eventId,
+                    eventTitle: eventTitle,
+                    fullName: fullName,
+                    email: email,
+                    guests: guests,
+                    notes: notes,
+                    createdAt: createdAt
+                })
+            });
+            if (!response.ok) throw Error(response.message);
+
+            this.viewRegistrants();
+
+        } catch (error) {
+            this.template.updateMessage(`<div class="error">Error: ${error.message}</div>`);
+        }
+    }
+
+    async updateRegistrant(registrantId, eventId, eventTitle) {
+        this.template.updateMessage('<div class="loading">Updating registration...</div>');
+        const createdAt = new Date(Date.now()).toISOString();
+
+        const formContainer = document.getElementById('registrantId');
+        const fullName =  document.getElementById(`name_${registrantId}`).value;
+        const email =  document.getElementById(`email_${registrantId}`).value;
+        const guests =  document.getElementById(`guests_${registrantId}`).value;
+        const notes =  document.getElementById(`notes_${registrantId}`).value;
+
+        try {
+            const response = await fetch(`${this.registrantsUrl}${registrantId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    eventId: eventId,
+                    eventTitle: eventTitle,
+                    fullName: fullName,
+                    email: email,
+                    guests: guests,
+                    notes: notes,
+                    createdAt: createdAt
+                })
+            });
+            if (!response.ok) throw Error(response.message);
+
+            this.viewRegistrants();
 
         } catch (error) {
             this.template.updateMessage(`<div class="error">Error: ${error.message}</div>`);
