@@ -1,37 +1,3 @@
-
-async function postRegistrant() {
-    const eventsContainer = document.getElementById('events');
-    const createdAt = new Date(Date.now()).toISOString();
-    eventsContainer.innerHTML = '<div class="loading">Creating registrant...</div>';
-
-    try {
-        const response = await fetch(`https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/registrants/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                eventId: '698299439a4cac03e8a330cb',
-                eventTitle: 'Holiday of Hope',
-                fullName: 'Test Name',
-                email: 'test@test.com',
-                guests: 5,
-                notes: 'Here are my notes.',
-                createdAt: createdAt
-            })
-        });
-        if (!response.ok) throw Error(response.message);
-
-        // const data = await response.json();
-        // console.log(data);
-
-        this.viewRegistrants();
-
-    } catch (error) {
-        eventsContainer.innerHTML = `<div class="error">Error: ${error.message}</div>`;
-    }
-}
-
 async function putRegistrant(id) {
     const eventsContainer = document.getElementById('events');
     const createdAt = new Date(Date.now()).toISOString();
@@ -107,13 +73,4 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("viewEventListBtn").addEventListener("click", () => {
       crud.viewEventList();
     });
-
-    document.getElementById("viewEventBtn").addEventListener("click", () => {
-      crud.viewEvent('6982995b9a4cac03e8a330cd');
-    });
-
-    // // Bind static method to button click
-    // document.getElementById("staticBtn").addEventListener("click", () => {
-    //   Greeter.sayHelloWorld(); // Calls the static method
-    // });
 });

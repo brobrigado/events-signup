@@ -15,7 +15,7 @@ class Crud {
 
             const data = await response.json();
 
-            this.template.updateMessage(`${data.length} events found.`);
+            this.template.updateMessage(`<div class="success">Load complete: ${data.length} events found</div>`);
             this.template.clear('events');
 
             data.forEach(event => {
@@ -63,11 +63,16 @@ class Crud {
             this.template.clear('registrants');
             this.template.createRegistrantListHeader();
 
+            let registrantCount = 0;
+
             data.forEach(registrant => {
                 if(registrant.eventId == eventId) {
+                    registrantCount++;
                     this.template.createRegistrantListCard(registrant, this);
                 }
             });
+
+            this.template.updateMessage(`<div class="success">Load complete: ${registrantCount} registrants found</div>`);
 
         } catch (error) {
             this.template.updateMessage(`<div class="error">Error: ${error.message}</div>`);
