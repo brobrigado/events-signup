@@ -76,6 +76,12 @@ class Template {
         this.eventsDiv.appendChild(eventCard);
     }
 
+    createRegistrantListHeader() {
+        const registrantListHeader = document.createElement('h3');
+        registrantListHeader.textContent = "Registered Users";
+        this.registrantsDiv.appendChild(registrantListHeader);
+    }
+
     createRegistrantListCard(registrant, crud) {
         const registrantCard = document.createElement('div');
         registrantCard.classList.add('registrant-card');

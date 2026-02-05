@@ -58,7 +58,7 @@ button:focus {
     padding-bottom: 10px;
 }
 
-.event-card {
+.event-card, .registrant-card {
     margin-top: 0.5rem;
     padding: 1rem;
     border: 1px solid #c0c0c0;

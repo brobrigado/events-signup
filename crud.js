@@ -60,6 +60,7 @@ class Crud {
 
             this.template.clear('messages');
             this.template.clear('registrants');
+            this.template.createRegistrantListHeader();
 
             data.forEach(registrant => {
                 if(registrant.eventId == eventId) {
