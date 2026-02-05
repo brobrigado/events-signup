@@ -1,67 +1,3 @@
-async function viewEvents() {
-    const eventsContainer = document.getElementById('events');
-    eventsContainer.innerHTML = '<div class="loading">Loading events...</div>';
-
-    try {
-        const response = await fetch(`https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/events/`);
-        if (!response.ok) throw Error(response.message);
-
-        const data = await response.json();
-        // console.log(data);
-
-        if(!data) return;
-
-        eventsContainer.replaceChildren();
-
-        data.forEach(event => {
-            const eventCard = document.createElement('div');
-            eventCard.classList.add('event-card');
-            eventCard.dataset.id = event._id;
-            eventCard.dataset.location = event.location;
-            eventCard.innerHTML = 
-            `<h3>${event.title}</h3>
-            <p>${event.location}</p>
-            <p>${event.description}</p>`;
-            eventsContainer.appendChild(eventCard);
-        });
-
-    } catch (error) {
-        eventsContainer.innerHTML = `<div class="error">Error: ${error.message}</div>`;
-    }
-}
-
-async function viewEvent(id) {
-    const eventsContainer = document.getElementById('events');
-    eventsContainer.innerHTML = '<div class="loading">Loading events...</div>';
-
-    try {
-        const response = await fetch(`https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/events/${id}`);
-        if (!response.ok) throw Error(response.message);
-
-        const data = await response.json();
-        // console.log(data);
-
-        if(!data) return;
-
-        eventsContainer.replaceChildren();
-
-        const eventCard = document.createElement('div');
-        eventCard.classList.add('event-card');
-        eventCard.dataset.id = data._id;
-        eventCard.dataset.location = data.location;
-
-        let html = 
-        `<h3>${data.title}</h3>
-        <p>${data.location}</p>
-        <p>${data.description}</p>`;
-        eventCard.innerHTML = html;
-
-        eventsContainer.appendChild(eventCard);
-
-    } catch (error) {
-        eventsContainer.innerHTML = `<div class="error">Error: ${error.message}</div>`;
-    }
-}
 
 async function viewRegistrants() {
     const eventsContainer = document.getElementById('events');
@@ -191,18 +127,31 @@ async function deleteRegistrant(id) {
     }
 }
 
-// var endpointUrl = "https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/registrants";
-// var registrantJson = {
-//                         createdAt: Date.now(),
-//                         email: 'test@test.com',
-//                         eventId: '698299439a4cac03e8a330cb',
-//                         eventTitle: 'Holiday of Hope',
-//                         fullName: 'Test Name',
-//                         guests: 5,
-//                         notes: 'Here are my notes.'
-//                     }
-// var unicornJson = JSON.stringify(registrantJson);
+function createRegistrationPostForm(eventId, eventTitle) {
+    const rootElement = document.getElementById('form');
+    const formCard = document.createElement('div');
+    formCard.classList.add('form-card');
+    formCard.dataset.id = eventId;
+    let html = `<p>FORM</p>`;
+    formCard.innerHTML = html;
+    rootElement.appendChild(formCard);
+}
 
 document.addEventListener('DOMContentLoaded', function () {
-    viewEvents();
+    const template = new Template();
+    const crud = new Crud(template);
+    crud.viewEventList();
+
+    document.getElementById("viewEventListBtn").addEventListener("click", () => {
+      crud.viewEventList();
+    });
+
+    document.getElementById("viewEventBtn").addEventListener("click", () => {
+      crud.viewEvent('6982995b9a4cac03e8a330cd');
+    });
+
+    // // Bind static method to button click
+    // document.getElementById("staticBtn").addEventListener("click", () => {
+    //   Greeter.sayHelloWorld(); // Calls the static method
+    // });
 });
