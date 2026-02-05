@@ -3,6 +3,7 @@ class Template {
         this.messagesDiv = document.getElementById('messages');
         this.eventsDiv = document.getElementById('events');
         this.formsDiv = document.getElementById('forms');
+        this.registrantsDiv = document.getElementById('registrants');
     }
 
     clear(id) {
@@ -16,9 +17,19 @@ class Template {
             case 'forms':
                 this.formsDiv.replaceChildren();
                 break;
+            case 'registrants':
+                this.registrantsDiv.replaceChildren();
+                break;
             default:
                 break;
         }
+    }
+
+    clearAll() {
+        this.messagesDiv.replaceChildren();
+        this.eventsDiv.replaceChildren();
+        this.formsDiv.replaceChildren();
+        this.registrantsDiv.replaceChildren();
     }
 
     updateMessage(message) {
@@ -63,5 +74,34 @@ class Template {
         eventCard.innerHTML = html;
 
         this.eventsDiv.appendChild(eventCard);
+    }
+
+    createRegistrantListCard(registrant, crud) {
+        const registrantCard = document.createElement('div');
+        registrantCard.classList.add('registrant-card');
+
+        let html = 
+        `<h3>${registrant.fullName}</h3>
+        <p>name: ${registrant.eventTitle}</p>
+        <p>email: ${registrant.email}</p>
+        <p>guests: ${registrant.guests}</p>`;
+        if(registrant.notes) {
+            html += `<p>notes: ${registrant.notes}</p>`;
+        }
+        // html += `<button onclick="putRegistrant('${registrant._id}')">Update</button>`;
+        // html += `<button onclick="deleteRegistrant('${registrant._id}')">Delete</button>`;
+        registrantCard.innerHTML = html;
+
+        registrantCard.innerHTML = html;
+
+        const registrantUpdateButton = document.createElement('button');
+        registrantUpdateButton.textContent = 'Update';
+        registrantUpdateButton.addEventListener("click", () => {
+            console.log(registrant._id);
+            // crud.viewEvent(registrant._id);
+        });
+        registrantCard.appendChild(registrantUpdateButton);
+
+        this.registrantsDiv.appendChild(registrantCard);
     }
 }
