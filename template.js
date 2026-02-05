@@ -88,7 +88,6 @@ class Template {
 
         let html = 
         `<h3>${registrant.fullName}</h3>
-        <p>name: ${registrant.eventTitle}</p>
         <p>email: ${registrant.email}</p>
         <p>guests: ${registrant.guests}</p>`;
         if(registrant.notes) {
@@ -102,8 +101,8 @@ class Template {
         const registrantUpdateButton = document.createElement('button');
         registrantUpdateButton.textContent = 'Update';
         registrantUpdateButton.addEventListener("click", () => {
-            console.log(registrant._id);
-            // crud.viewEvent(registrant._id);
+            // console.log(registrant._id, registrant.eventId, registrant.eventTitle);
+            this.createUpdateRegistrantForm(registrant, registrantCard, crud);
         });
 
         const registrantDeleteButton = document.createElement('button');
@@ -153,5 +152,54 @@ class Template {
 
         registrantFormCard.appendChild(registrantFormSubmitButton);
         this.formsDiv.appendChild(registrantFormCard);
+    }
+
+    createUpdateRegistrantForm(registrant, parentDiv, crud) {
+        const registrantFormCard = document.createElement('div');
+        registrantFormCard.classList.add('form-card');
+        registrantFormCard.setAttribute('id', `form_${registrant._id}`);
+
+        let html = 
+        `<h3>Update your registration for ${registrant.eventTitle}</h3>
+        <div class="form">
+            <div class="input-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name_${registrant._id}" value="${registrant.fullName}" required>
+            </div>
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input type="text" id="email_${registrant._id}" value="${registrant.email}" required>
+            </div>
+            <div class="input-group">
+                <label for="guests">Guests:</label>
+                <input type="number" id="guests_${registrant._id}" value="${registrant.guests}" required>
+            </div>
+            <div class="input-group">
+                <label for="notes">Notes:</label>
+                <textarea id="notes_${registrant._id}">${registrant.notes}</textarea>
+            </div>
+        </div>`;
+        registrantFormCard.innerHTML = html;
+
+        const registrantFormButtons = document.createElement('div');
+        registrantFormButtons.classList.add('buttons');
+
+        const registrantFormSubmitButton = document.createElement('button');
+        registrantFormSubmitButton.textContent = 'Update';
+        registrantFormSubmitButton.addEventListener("click", () => {
+            crud.updateRegistrant(registrant._id, registrant.eventId, registrant.eventTitle);
+        });
+
+        const registrantFormCancelButton = document.createElement('button');
+        registrantFormCancelButton.textContent = 'Cancel';
+        registrantFormCancelButton.addEventListener("click", () => {
+            registrantFormCard.remove();
+        });
+
+        registrantFormButtons.appendChild(registrantFormSubmitButton);
+        registrantFormButtons.appendChild(registrantFormCancelButton);
+        registrantFormCard.appendChild(registrantFormButtons);
+
+        parentDiv.appendChild(registrantFormCard);
     }
 }

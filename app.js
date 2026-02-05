@@ -31,39 +31,6 @@ async function putRegistrant(id) {
     }
 }
 
-async function deleteRegistrant(id) {
-    const eventsContainer = document.getElementById('events');
-    eventsContainer.innerHTML = '<div class="loading">Creating Registrant...</div>';
-
-    try {
-        const response = await fetch(`https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/registrants/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: ''
-        });
-        if (!response.ok) throw Error(response.message);
-
-        // const data = await response.json();
-        // console.log(data);
-
-        this.viewRegistrants();
-
-    } catch (error) {
-        eventsContainer.innerHTML = `<div class="error">Error: ${error.message}</div>`;
-    }
-}
-
-function createRegistrationPostForm(eventId, eventTitle) {
-    const rootElement = document.getElementById('form');
-    const formCard = document.createElement('div');
-    formCard.classList.add('form-card');
-    formCard.dataset.id = eventId;
-    let html = `<p>FORM</p>`;
-    formCard.innerHTML = html;
-    rootElement.appendChild(formCard);
-}
 
 document.addEventListener('DOMContentLoaded', function () {
     const template = new Template();

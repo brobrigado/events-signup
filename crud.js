@@ -41,7 +41,7 @@ class Crud {
             this.template.clear('events');
 
             this.template.createEventCard(data, this);
-            this.template.createNewRegistrantForm(data, this)
+            this.template.createNewRegistrantForm(data, this);
 
             this.viewRegistrants(eventId);
 
@@ -140,6 +140,8 @@ class Crud {
             });
             if (!response.ok) throw Error(response.message);
 
+            formContainer.remove();
+            this.template.updateMessage(`<div class="success">Thank you. Your registration has been received.</div>`);
             this.viewRegistrants(eventId);
 
         } catch (error) {
@@ -187,7 +189,7 @@ class Crud {
 
         return {
             fullName: fullName,
-            email: fullName,
+            email: email,
             guests: guests,
             notes: notes,
         }
