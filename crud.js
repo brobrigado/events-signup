@@ -15,7 +15,7 @@ class Crud {
 
             const data = await response.json();
 
-            this.template.updateMessage(`<div class="success">Load complete: ${data.length} events found</div>`);
+            this.template.updateMessage(`<div class="success">Load complete: ${data.length} events found.</div>`);
             this.template.clear('events');
 
             data.forEach(event => {
@@ -72,7 +72,7 @@ class Crud {
                 }
             });
 
-            this.template.updateMessage(`<div class="success">Load complete: ${registrantCount} registrants found</div>`);
+            this.template.updateMessage(`<div class="success">Load complete: ${registrantCount} registrants found.</div>`);
 
         } catch (error) {
             this.template.updateMessage(`<div class="error">Error: ${error.message}</div>`);
@@ -139,6 +139,28 @@ class Crud {
                 })
             });
             if (!response.ok) throw Error(response.message);
+
+            this.viewRegistrants(eventId);
+
+        } catch (error) {
+            this.template.updateMessage(`<div class="error">Error: ${error.message}</div>`);
+        }
+    }
+
+    async deleteRegistrant(registrantId, eventId) {
+        this.template.updateMessage('<div class="loading">Deleting registration...</div>');
+
+        try {
+            const response = await fetch(`${this.registrantsUrl}${registrantId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: ''
+            });
+            if (!response.ok) throw Error(response.message);
+
+            this.template.updateMessage(`<div class="success">Thank you. Your registration has been removed.</div>`);
 
             this.viewRegistrants(eventId);
 

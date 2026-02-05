@@ -94,9 +94,10 @@ class Template {
         if(registrant.notes) {
             html += `<p>notes: ${registrant.notes}</p>`;
         }
-        // html += `<button onclick="putRegistrant('${registrant._id}')">Update</button>`;
-        // html += `<button onclick="deleteRegistrant('${registrant._id}')">Delete</button>`;
         registrantCard.innerHTML = html;
+
+        const registrantButtons = document.createElement('div');
+        registrantButtons.classList.add('buttons');
 
         const registrantUpdateButton = document.createElement('button');
         registrantUpdateButton.textContent = 'Update';
@@ -105,7 +106,15 @@ class Template {
             // crud.viewEvent(registrant._id);
         });
 
-        registrantCard.appendChild(registrantUpdateButton);
+        const registrantDeleteButton = document.createElement('button');
+        registrantDeleteButton.textContent = 'Delete';
+        registrantDeleteButton.addEventListener("click", () => {
+            crud.deleteRegistrant(registrant._id, registrant.eventId);
+        });
+
+        registrantButtons.appendChild(registrantUpdateButton);
+        registrantButtons.appendChild(registrantDeleteButton);
+        registrantCard.appendChild(registrantButtons);
         this.registrantsDiv.appendChild(registrantCard);
     }
 
