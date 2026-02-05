@@ -7,7 +7,7 @@ async function viewEvents() {
         if (!response.ok) throw Error(response.message);
 
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         if(!data) return;
 
@@ -39,7 +39,7 @@ async function viewEvent(id) {
         if (!response.ok) throw Error(response.message);
 
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         if(!data) return;
 
@@ -49,10 +49,13 @@ async function viewEvent(id) {
         eventCard.classList.add('event-card');
         eventCard.dataset.id = data._id;
         eventCard.dataset.location = data.location;
-        eventCard.innerHTML = 
+
+        let html = 
         `<h3>${data.title}</h3>
         <p>${data.location}</p>
         <p>${data.description}</p>`;
+        eventCard.innerHTML = html;
+
         eventsContainer.appendChild(eventCard);
 
     } catch (error) {
@@ -69,7 +72,7 @@ async function viewRegistrants() {
         if (!response.ok) throw Error(response.message);
 
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         if(!data) return;
 
@@ -81,12 +84,14 @@ async function viewRegistrants() {
             eventCard.dataset.id = registrant._id;
             let html = 
             `<h3>${registrant.eventTitle}</h3>
-            <p>email: ${registrant.fullName}</p>
+            <p>name: ${registrant.fullName}</p>
             <p>email: ${registrant.email}</p>
             <p>guests: ${registrant.guests}</p>`;
             if(registrant.notes) {
                 html += `<p>notes: ${registrant.notes}</p>`;
             }
+            html += `<button onclick="putRegistrant('${registrant._id}')">Update</button>`;
+            html += `<button onclick="deleteRegistrant('${registrant._id}')">Delete</button>`;
             eventCard.innerHTML = html;
             eventsContainer.appendChild(eventCard);
         });
@@ -98,29 +103,62 @@ async function viewRegistrants() {
 
 async function postRegistrant() {
     const eventsContainer = document.getElementById('events');
-    eventsContainer.innerHTML = '<div class="loading">Creating Registrant...</div>';
+    const createdAt = new Date(Date.now()).toISOString();
+    eventsContainer.innerHTML = '<div class="loading">Creating registrant...</div>';
 
     try {
         const response = await fetch(`https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/registrants/`, {
             method: 'POST',
             headers: {
-                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                createdAt: Date.now(),
-                email: 'test@test.com',
                 eventId: '698299439a4cac03e8a330cb',
                 eventTitle: 'Holiday of Hope',
                 fullName: 'Test Name',
+                email: 'test@test.com',
                 guests: 5,
-                notes: 'Here are my notes.'
+                notes: 'Here are my notes.',
+                createdAt: createdAt
             })
         });
         if (!response.ok) throw Error(response.message);
 
-        const data = await response.json();
-        console.log(data);
+        // const data = await response.json();
+        // console.log(data);
+
+        this.viewRegistrants();
+
+    } catch (error) {
+        eventsContainer.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+    }
+}
+
+async function putRegistrant(id) {
+    const eventsContainer = document.getElementById('events');
+    const createdAt = new Date(Date.now()).toISOString();
+    eventsContainer.innerHTML = '<div class="loading">Updating registrant...</div>';
+
+    try {
+        const response = await fetch(`https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/registrants/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                eventId: '698299439a4cac03e8a330cb',
+                eventTitle: 'Holiday of Hope (Updated)',
+                fullName: 'Test Name (Updated)',
+                email: 'test(Updated)@test.com',
+                guests: 3,
+                notes: 'Here are my notes. (Updated)',
+                createdAt: createdAt
+            })
+        });
+        if (!response.ok) throw Error(response.message);
+
+        // const data = await response.json();
+        // console.log(data);
 
         viewRegistrants();
 
@@ -128,3 +166,43 @@ async function postRegistrant() {
         eventsContainer.innerHTML = `<div class="error">Error: ${error.message}</div>`;
     }
 }
+
+async function deleteRegistrant(id) {
+    const eventsContainer = document.getElementById('events');
+    eventsContainer.innerHTML = '<div class="loading">Creating Registrant...</div>';
+
+    try {
+        const response = await fetch(`https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/registrants/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: ''
+        });
+        if (!response.ok) throw Error(response.message);
+
+        // const data = await response.json();
+        // console.log(data);
+
+        this.viewRegistrants();
+
+    } catch (error) {
+        eventsContainer.innerHTML = `<div class="error">Error: ${error.message}</div>`;
+    }
+}
+
+// var endpointUrl = "https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/registrants";
+// var registrantJson = {
+//                         createdAt: Date.now(),
+//                         email: 'test@test.com',
+//                         eventId: '698299439a4cac03e8a330cb',
+//                         eventTitle: 'Holiday of Hope',
+//                         fullName: 'Test Name',
+//                         guests: 5,
+//                         notes: 'Here are my notes.'
+//                     }
+// var unicornJson = JSON.stringify(registrantJson);
+
+document.addEventListener('DOMContentLoaded', function () {
+    viewEvents();
+});
