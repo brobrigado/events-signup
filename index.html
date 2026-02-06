@@ -10,7 +10,7 @@
 <div class="main">
     <header>
         <div class="header">
-            <img src="images/PCH_Logo.png" alt="Pechanga logo">
+            <img id="logo" src="images/PCH_Logo.png" alt="Pechanga logo">
             <div class="searchbar">
                 <input type="text" id="search" placeholder="Search events...">
                 <button id="searchEventsBtn">Search</button>
@@ -19,18 +19,17 @@
     </header>
     <body>
         <div class="container-card">
-            
-            <div class="filter">
-                <p class="filter--label">Categories</p>
-                <div class="filter--buttons">
-                    <button id="filterCategoryBtn">All</button>
-                    <div id="filterDropDown"></div>
+            <div id="eventListMenu">
+                <h2>Event List</h2>
+                <div class="filter">
+                    <p class="filter--label">Categories</p>
+                    <div class="filter--buttons">
+                        <button id="filterCategoryBtn">All</button>
+                        <div id="filterDropDown"></div>
+                    </div>
                 </div>
             </div>
-            <h2>Event List</h2>
-            <div class="buttons">
-                <button id="viewEventListBtn">View Event List</button>
-            </div>
+            
             
             <div id="messages"></div>
             <div id="events"></div>

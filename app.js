@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const crud = new Crud(template);
     crud.viewEventList();
 
-    document.getElementById("viewEventListBtn").addEventListener("click", () => {
+    document.getElementById("logo").addEventListener("click", () => {
       crud.viewEventList();
     });
 

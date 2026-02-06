@@ -7,8 +7,13 @@ class Crud {
     }
 
     async viewEventList(filter = {type:'all', value:''}) {
+        this.template.showEventListMenu();
         this.template.clearAll();
         this.template.updateMessage('<div class="loading">Loading events...</div>');
+
+        if(filter.type == 'all') {
+            this.template.resetFilterButton();
+        }
 
         try {
             const response = await fetch(this.eventsUrl);
@@ -35,6 +40,7 @@ class Crud {
     }
 
     async viewEvent(eventId) {
+        this.template.hideEventListMenu();
         this.template.clearAll();
         this.template.updateMessage('<div class="loading">Loading event...</div>');
 

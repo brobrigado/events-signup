@@ -55,14 +55,22 @@ img {
     margin-bottom: 1rem;
 }
 
+#logo {
+    cursor: pointer;
+}
+
 .searchbar {
     display: grid;
     grid-template-columns: 3fr 1fr;
     gap: 0.5rem;
 }
 
+#eventListMenu {
+    display: flex;
+    justify-content: space-between;
+}
+
 .filter {
-    float: right;
     display: flex;
     align-items: flex-start;
     gap: 0.5rem;
@@ -76,6 +84,7 @@ img {
     display: flex;
     flex-direction: column;
     justify-content: right;
+    position: relative;
 }
 
 #filterCategoryBtn {
@@ -86,7 +95,10 @@ img {
     display: flex;
     flex-direction: column;
     gap: 0.1rem;
-    margin-top: 0.1rem;
+    margin-top: 0.15rem;
+    position: absolute;
+    width: 100%;
+    top: 2rem;
 }
 
 .container-card {
@@ -99,10 +111,7 @@ img {
 
 .container-card h2 {
     color: #333;
-    margin-bottom: 15px;
     font-size: 1.3rem;
-    border-bottom: 1px solid #c0c0c0;
-    padding-bottom: 10px;
 }
 
 .event-card, .form-card, .registrant-card {

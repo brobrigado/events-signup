@@ -4,6 +4,9 @@ class Template {
         this.eventsDiv = document.getElementById('events');
         this.formsDiv = document.getElementById('forms');
         this.registrantsDiv = document.getElementById('registrants');
+        this.eventListMenuDiv = document.getElementById('eventListMenu');
+        this.filterCategoryBtn = document.getElementById('filterCategoryBtn');
+        this.filterDropDown = document.getElementById('filterDropDown');
     }
 
     clear(id) {
@@ -202,23 +205,35 @@ class Template {
         parentDiv.appendChild(registrantFormCard);
     }
 
+    hideEventListMenu() {
+        this.eventListMenuDiv.style.display = 'none';
+    }
+
+    showEventListMenu() {
+        this.eventListMenuDiv.style.display = 'flex';
+    }
+
+    resetFilterButton() {
+        this.filterCategoryBtn.textContent = 'All';
+    }
+
     createFilterButtons(categories, crud) {
-        const filterDropDownButton =  document.getElementById('filterCategoryBtn');
-        const filterDropDown =  document.getElementById('filterDropDown');
-        filterDropDown.replaceChildren();
+        this.filterDropDown.replaceChildren();
 
         categories.forEach(category => {
-            const filterCategoryButton = document.createElement('button');
-            filterCategoryButton.textContent = category;
-            filterCategoryButton.addEventListener("click", () => {
-                crud.viewEventList({
-                    type: 'category',
-                    value: category
+            if(this.filterCategoryBtn.textContent != category) {
+                const filterCategoryButton = document.createElement('button');
+                filterCategoryButton.textContent = category;
+                filterCategoryButton.addEventListener("click", () => {
+                    crud.viewEventList({
+                        type: 'category',
+                        value: category
+                    });
+                    this.filterDropDown.replaceChildren();
+                    this.filterCategoryBtn.textContent = category;
                 });
-                filterDropDown.replaceChildren();
-                filterDropDownButton.textContent = category;
-            });
-            filterDropDown.appendChild(filterCategoryButton);
+                this.filterDropDown.appendChild(filterCategoryButton);
+            }
         });
     }
 }
