@@ -234,6 +234,10 @@ class Template {
         this.eventsDiv.innerHTML = `<p>Sorry, no events found for "${message}".</p>`;
     }
 
+    loadingMessage(message) {
+        this.eventsDiv.innerHTML = `<p>Loading...</p>`;
+    }
+
     createFilterButtons(categories, crud) {
         this.filterDropDown.replaceChildren();
 
