@@ -15,6 +15,10 @@ class Crud {
             this.template.resetFilterButton();
         }
 
+        if(filter.type != 'search') {
+            this.template.clearSearchbar();
+        }
+
         try {
             const response = await fetch(this.eventsUrl);
             if (!response.ok) throw Error(response.message);
@@ -22,13 +26,14 @@ class Crud {
             const data = await response.json();
             const filteredData = this.filterEvents(filter, data);
 
+            this.template.clear('events');
+
             if(filteredData.length > 0) {
                 this.template.updateMessage(`<div class="success">Load complete: ${filteredData.length} events found.</div>`);
             } else {
+                this.template.emptySearchMessage(filter.value);
                 this.template.updateMessage(`<div class="success">Load complete: No events found.</div>`);
             }
-
-            this.template.clear('events');
 
             filteredData.forEach(event => {
                 this.template.createEventListCard(event, this);

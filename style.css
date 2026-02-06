@@ -99,6 +99,7 @@ img {
     position: absolute;
     width: 100%;
     top: 2rem;
+    z-index: 99;
 }
 
 .container-card {
@@ -119,10 +120,21 @@ img {
     padding: 1rem;
     border: 1px solid #c0c0c0;
     border-radius: 0.4rem;
+    position: relative;
 }
 
 .event-card--image {
     width: 100%;
+}
+
+.event-card--close-button {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    font-weight: 700;
 }
 
 .buttons {

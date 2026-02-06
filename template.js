@@ -7,6 +7,7 @@ class Template {
         this.eventListMenuDiv = document.getElementById('eventListMenu');
         this.filterCategoryBtn = document.getElementById('filterCategoryBtn');
         this.filterDropDown = document.getElementById('filterDropDown');
+        this.search = document.getElementById('search');
     }
 
     clear(id) {
@@ -75,6 +76,14 @@ class Template {
         <p>capacity: ${event.capacity}</p>`;
 
         eventCard.innerHTML = html;
+
+        const eventCloseButton = document.createElement('button');
+        eventCloseButton.textContent = 'X';
+        eventCloseButton.classList.add('event-card--close-button');
+        eventCloseButton.addEventListener("click", () => {
+            crud.viewEventList();
+        });
+        eventCard.appendChild(eventCloseButton);
 
         this.eventsDiv.appendChild(eventCard);
     }
@@ -215,6 +224,14 @@ class Template {
 
     resetFilterButton() {
         this.filterCategoryBtn.textContent = 'All';
+    }
+
+    clearSearchbar() {
+        this.search.value = '';
+    }
+
+    emptySearchMessage(message) {
+        this.eventsDiv.innerHTML = `<p>Sorry, no events found for "${message}".</p>`;
     }
 
     createFilterButtons(categories, crud) {
