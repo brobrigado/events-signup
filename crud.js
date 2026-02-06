@@ -11,7 +11,7 @@ class Crud {
         this.template.clearAll();
         this.template.updateMessage('<div class="loading">Loading events...</div>');
 
-        if(filter.type == 'all') {
+        if(filter.type != 'category') {
             this.template.resetFilterButton();
         }
 
