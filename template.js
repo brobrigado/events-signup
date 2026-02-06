@@ -201,4 +201,24 @@ class Template {
 
         parentDiv.appendChild(registrantFormCard);
     }
+
+    createFilterButtons(categories, crud) {
+        const filterDropDownButton =  document.getElementById('filterCategoryBtn');
+        const filterDropDown =  document.getElementById('filterDropDown');
+        filterDropDown.replaceChildren();
+
+        categories.forEach(category => {
+            const filterCategoryButton = document.createElement('button');
+            filterCategoryButton.textContent = category;
+            filterCategoryButton.addEventListener("click", () => {
+                crud.viewEventList({
+                    type: 'category',
+                    value: category
+                });
+                filterDropDown.replaceChildren();
+                filterDropDownButton.textContent = category;
+            });
+            filterDropDown.appendChild(filterCategoryButton);
+        });
+    }
 }

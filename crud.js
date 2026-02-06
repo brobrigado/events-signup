@@ -3,6 +3,7 @@ class Crud {
         this.template = template;
         this.eventsUrl = 'https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/events/';
         this.registrantsUrl = 'https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/registrants/';
+        this.categories = ['All', 'Holiday', 'Cultural'];
     }
 
     async viewEventList(filter = {type:'all', value:''}) {
@@ -192,7 +193,7 @@ class Crud {
     }
 
     filterEvents(filter, data) {
-        if(filter.type == 'all') {
+        if(filter.type == 'all' || filter.type == 'category' && filter.value == 'All') {
             return data;
         }
         
@@ -201,9 +202,18 @@ class Crud {
         switch (filter.type) {
             case 'search':
                 data.forEach(event => {
-                    const testString = event.title.concat(' ', event.description);
+                    let testString = event.title.concat(' ', event.description);
+                    testString = testString.concat(' ', event.location);
                     const regex = new RegExp(filter.value, "i");
                     if(regex.test(testString)) {
+                        results.push(event);
+                    }
+                });
+                break;
+            
+            case 'category':
+                data.forEach(event => {
+                    if(event.category == filter.value) {
                         results.push(event);
                     }
                 });
@@ -256,5 +266,14 @@ class Crud {
 
     isValidEmail(email) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    openCategoryFilterMenu() {
+        const filterDropDown =  document.getElementById('filterDropDown');
+        if (filterDropDown.hasChildNodes()) {
+            filterDropDown.replaceChildren();
+        } else {
+            this.template.createFilterButtons(this.categories, this);
+        }
     }
 }

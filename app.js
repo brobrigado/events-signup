@@ -32,6 +32,17 @@ async function putRegistrant(id) {
 }
 
 
+
+// Close the dropdown menu if the user clicks outside of it
+// window.onclick = function(event) {
+//     console.log(event.target.matches('#filterDropDown'));
+//     if (!event.target.matches('#filterDropDown')) {
+//         const filterDropDown =  document.getElementById('filterDropDown');
+//         filterDropDown.replaceChildren();
+//     }
+// }
+
+
 document.addEventListener('DOMContentLoaded', function () {
     const template = new Template();
     const crud = new Crud(template);
@@ -43,5 +54,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById("searchEventsBtn").addEventListener("click", () => {
       crud.searchEvents();
+    });
+
+    document.getElementById("filterCategoryBtn").addEventListener("click", () => {
+      crud.openCategoryFilterMenu();
     });
 });
