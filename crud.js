@@ -5,7 +5,7 @@ class Crud {
         this.registrantsUrl = 'https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/registrants/';
     }
 
-    async viewEventList() {
+    async viewEventList(filter = {type:'all', value:''}) {
         this.template.clearAll();
         this.template.updateMessage('<div class="loading">Loading events...</div>');
 
@@ -14,11 +14,17 @@ class Crud {
             if (!response.ok) throw Error(response.message);
 
             const data = await response.json();
+            const filteredData = this.filterEvents(filter, data);
 
-            this.template.updateMessage(`<div class="success">Load complete: ${data.length} events found.</div>`);
+            if(filteredData.length > 0) {
+                this.template.updateMessage(`<div class="success">Load complete: ${filteredData.length} events found.</div>`);
+            } else {
+                this.template.updateMessage(`<div class="success">Load complete: No events found.</div>`);
+            }
+
             this.template.clear('events');
 
-            data.forEach(event => {
+            filteredData.forEach(event => {
                 this.template.createEventListCard(event, this);
             });
 
@@ -169,6 +175,45 @@ class Crud {
         } catch (error) {
             this.template.updateMessage(`<div class="error">Error: ${error.message}</div>`);
         }
+    }
+
+    searchEvents() {
+        const search =  this.sanitizeHTML(document.getElementById('search').value);
+
+        if(!search) {
+            this.template.updateMessage('<div class="error">Error: Nothing to search.</div>');
+            return;
+        }
+
+        this.viewEventList({
+            type: 'search',
+            value: search
+        });
+    }
+
+    filterEvents(filter, data) {
+        if(filter.type == 'all') {
+            return data;
+        }
+        
+        let results = [];
+
+        switch (filter.type) {
+            case 'search':
+                data.forEach(event => {
+                    const testString = event.title.concat(' ', event.description);
+                    const regex = new RegExp(filter.value, "i");
+                    if(regex.test(testString)) {
+                        results.push(event);
+                    }
+                });
+                break;
+        
+            default:
+                results = data;
+        }
+        
+        return results;
     }
 
     createFormData(formId) {

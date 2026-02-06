@@ -40,4 +40,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("viewEventListBtn").addEventListener("click", () => {
       crud.viewEventList();
     });
+
+    document.getElementById("searchEventsBtn").addEventListener("click", () => {
+      crud.searchEvents();
+    });
 });

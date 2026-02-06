@@ -101,7 +101,6 @@ class Template {
         const registrantUpdateButton = document.createElement('button');
         registrantUpdateButton.textContent = 'Update';
         registrantUpdateButton.addEventListener("click", () => {
-            // console.log(registrant._id, registrant.eventId, registrant.eventTitle);
             this.createUpdateRegistrantForm(registrant, registrantCard, crud);
         });
 

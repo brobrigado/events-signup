@@ -6,22 +6,38 @@
     <title>Events Signup</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="container-card">
-        <h2>Event List</h2>
-        <div class="buttons">
-            <button id="viewEventListBtn">View Event List</button>
+
+<div class="main">
+    <header>
+        <div class="header">
+            <img src="images/PCH_Logo.png" alt="Pechanga logo">
+            <div class="searchbar">
+                <input type="text" id="search" placeholder="Search events...">
+                <button id="searchEventsBtn">Search</button>
+            </div>
         </div>
-        
-        <div id="messages"></div>
-        <div id="events"></div>
-        <div id="forms"></div>
-        <div id="registrants"></div>
+    </header>
+    <body>
+        <div class="container-card">
+            <div class="filter">
+                <button id="filterCategoryBtn">Category</button>
+            </div>
+            <h2>Event List</h2>
+            <div class="buttons">
+                <button id="viewEventListBtn">View Event List</button>
+            </div>
+            
+            <div id="messages"></div>
+            <div id="events"></div>
+            <div id="forms"></div>
+            <div id="registrants"></div>
+    
+        </div>
+    
+        <script src="template.js"></script>
+        <script src="crud.js"></script>
+        <script src="app.js"></script>
+    </body>
+</div>
 
-    </div>
-
-    <script src="template.js"></script>
-    <script src="crud.js"></script>
-    <script src="app.js"></script>
-</body>
 </html>
