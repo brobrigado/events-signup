@@ -10,7 +10,7 @@ supports search and filtering, and allows users to create, edit, and delete even
 
 ## Setup
 - Use 'Live Server' extension in VS Code
-- or just view the site here on [Brobrigado Github Pages](https://brobrigado.github.io/events-signup/)
+- or just view the site here on [brobrigado Github Pages](https://brobrigado.github.io/events-signup/){:target="_blank"}
 
 ## Tech choices
 ![Outline](images/outline.png)
