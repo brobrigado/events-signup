@@ -4,44 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events Signup</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
-<div class="main">
-    <header>
-        <div class="header">
-            <img id="logo" src="images/PCH_Logo.png" alt="Pechanga logo">
-            <div class="searchbar">
-                <input type="text" id="search" placeholder="Search events...">
-                <button id="searchEventsBtn">Search</button>
+<body>
+    <div class="site">
+
+        <nav class="navbar mt-2 mb-2">
+            <div class="container">
+                <div class="col-12 col-md-4 logo-container">
+                    <img id="logo" class="img-fluid" src="images/PCH_Logo.png" alt="Pechanga logo">
+                </div>
+    
+                <div class="col-12 col-md-6">
+                    <form id="searchForm" class="d-flex" role="search">
+                        <input id="search" class="form-control me-2" placeholder="Search" type="search" aria-label="Search">
+                        <button class="btn btn-outline-primary" type="submit">Search</button>
+                    </form>
+                </div>
             </div>
-        </div>
-    </header>
-    <body>
-        <div class="container-card">
+        </nav>
+
+        <div class="container container--main">
             <div id="eventListMenu">
-                <h2>Event List</h2>
+                <h2>Upcoming Events</h2>
                 <div class="filter">
                     <p class="filter--label">Categories</p>
                     <div class="filter--buttons">
-                        <button id="filterCategoryBtn">All</button>
+                        <button id="filterCategoryBtn" class="btn btn-secondary">All</button>
                         <div id="filterDropDown"></div>
                     </div>
                 </div>
             </div>
             
+            <div id="pageElements" class="page-elements page-elements--event-list">
+                <div class="mainElements">
+                    <div id="events"></div>
+                    <div id="forms"></div>
+                </div>
+                <div id="registrants"></div>
+            </div>
             
             <div id="messages"></div>
-            <div id="events"></div>
-            <div id="forms"></div>
-            <div id="registrants"></div>
-    
         </div>
-    
-        <script src="template.js"></script>
-        <script src="crud.js"></script>
-        <script src="app.js"></script>
-    </body>
-</div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="template.js"></script>
+    <script src="crud.js"></script>
+    <script src="app.js"></script>
+</body>
+
 
 </html>

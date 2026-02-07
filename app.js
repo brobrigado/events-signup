@@ -1,48 +1,3 @@
-async function putRegistrant(id) {
-    const eventsContainer = document.getElementById('events');
-    const createdAt = new Date(Date.now()).toISOString();
-    eventsContainer.innerHTML = '<div class="loading">Updating registrant...</div>';
-
-    try {
-        const response = await fetch(`https://crudcrud.com/api/7e42b21784e849e197d7dcb5be768efe/registrants/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                eventId: '698299439a4cac03e8a330cb',
-                eventTitle: 'Holiday of Hope (Updated)',
-                fullName: 'Test Name (Updated)',
-                email: 'test(Updated)@test.com',
-                guests: 3,
-                notes: 'Here are my notes. (Updated)',
-                createdAt: createdAt
-            })
-        });
-        if (!response.ok) throw Error(response.message);
-
-        // const data = await response.json();
-        // console.log(data);
-
-        viewRegistrants();
-
-    } catch (error) {
-        eventsContainer.innerHTML = `<div class="error">Error: ${error.message}</div>`;
-    }
-}
-
-
-
-// Close the dropdown menu if the user clicks outside of it
-// window.onclick = function(event) {
-//     console.log(event.target.matches('#filterDropDown'));
-//     if (!event.target.matches('#filterDropDown')) {
-//         const filterDropDown =  document.getElementById('filterDropDown');
-//         filterDropDown.replaceChildren();
-//     }
-// }
-
-
 document.addEventListener('DOMContentLoaded', function () {
     const template = new Template();
     const crud = new Crud(template);
@@ -52,8 +7,9 @@ document.addEventListener('DOMContentLoaded', function () {
       crud.viewEventList();
     });
 
-    document.getElementById("searchEventsBtn").addEventListener("click", () => {
-      crud.searchEvents();
+    document.getElementById("searchForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        crud.searchEvents();
     });
 
     document.getElementById("filterCategoryBtn").addEventListener("click", () => {

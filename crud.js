@@ -7,9 +7,7 @@ class Crud {
     }
 
     async viewEventList(filter = {type:'all', value:''}) {
-        this.template.showEventListMenu();
-        this.template.clearAll();
-        this.template.loadingMessage();
+        this.template.updatePageElements('event_list');
 
         if(filter.type != 'category') {
             this.template.resetFilterButton();
@@ -29,10 +27,10 @@ class Crud {
             this.template.clear('events');
 
             if(filteredData.length > 0) {
-                this.template.updateMessage(`<div class="success">Load complete: ${filteredData.length} events found.</div>`);
+                this.template.updateMessage(`<div class="alert alert-success">Load complete: ${filteredData.length} events found.</div>`);
             } else {
                 this.template.emptySearchMessage(filter.value);
-                this.template.updateMessage(`<div class="success">Load complete: No events found.</div>`);
+                this.template.updateMessage(`<div class="alert alert-success">Load complete: No events found.</div>`);
             }
 
             filteredData.forEach(event => {
@@ -40,14 +38,12 @@ class Crud {
             });
 
         } catch (error) {
-            this.template.updateMessage(`<div class="error">Error: ${error.message}</div>`);
+            this.template.updateMessage(`<div class="alert alert-danger">Error: ${error.message}</div>`);
         }
     }
 
     async viewEvent(eventId) {
-        this.template.hideEventListMenu();
-        this.template.clearAll();
-        this.template.loadingMessage();
+        this.template.updatePageElements('event_single');
 
         try {
             const response = await fetch(`${this.eventsUrl}${eventId}`);
@@ -64,12 +60,12 @@ class Crud {
             this.viewRegistrants(eventId);
 
         } catch (error) {
-            this.template.updateMessage(`<div class="error">Error: ${error.message}</div>`);
+            this.template.updateMessage(`<div class="alert alert-danger">Error: ${error.message}</div>`);
         }
     }
 
     async viewRegistrants(eventId) {
-        this.template.updateMessage('<div class="loading">Loading registrants...</div>');
+        this.template.updateMessage('<div class="alert alert-info">Loading registrants...</div>');
 
         try {
             const response = await fetch(this.registrantsUrl);
@@ -90,15 +86,15 @@ class Crud {
                 }
             });
 
-            this.template.updateMessage(`<div class="success">Load complete: ${registrantCount} registrants found.</div>`);
+            this.template.updateMessage(`<div class="alert alert-success">Load complete: ${registrantCount} registrants found.</div>`);
 
         } catch (error) {
-            this.template.updateMessage(`<div class="error">Error: ${error.message}</div>`);
+            this.template.updateMessage(`<div class="alert alert-danger">Error: ${error.message}</div>`);
         }
     }
 
     async createRegistrant(eventId, eventTitle) {
-        this.template.updateMessage('<div class="loading">Creating registration...</div>');
+        this.template.updateMessage('<div class="alert alert-info">Creating registration...</div>');
         const createdAt = new Date(Date.now()).toISOString();
 
         const formContainer = document.getElementById(`form_${eventId}`);
@@ -123,17 +119,17 @@ class Crud {
             });
             if (!response.ok) throw Error(response.message);
 
-            formContainer.remove();
-            this.template.updateMessage(`<div class="success">Thank you. Your registration has been received.</div>`);
+            this.template.registrationComplete();
+            this.template.updateMessage(`<div class="alert alert-success">Thank you. Your registration has been received.</div>`);
             this.viewRegistrants(eventId);
 
         } catch (error) {
-            this.template.updateMessage(`<div class="error">Error: ${error.message}</div>`);
+            this.template.updateMessage(`<div class="alert alert-danger">Error: ${error.message}</div>`);
         }
     }
 
     async updateRegistrant(registrantId, eventId, eventTitle) {
-        this.template.updateMessage('<div class="loading">Updating registration...</div>');
+        this.template.updateMessage('<div class="alert alert-info">Updating registration...</div>');
         const createdAt = new Date(Date.now()).toISOString();
 
         const formContainer = document.getElementById(`form_${registrantId}`);
@@ -159,16 +155,16 @@ class Crud {
             if (!response.ok) throw Error(response.message);
 
             formContainer.remove();
-            this.template.updateMessage(`<div class="success">Thank you. Your registration has been received.</div>`);
+            this.template.updateMessage(`<div class="alert alert-success">Thank you. Your registration has been received.</div>`);
             this.viewRegistrants(eventId);
 
         } catch (error) {
-            this.template.updateMessage(`<div class="error">Error: ${error.message}</div>`);
+            this.template.updateMessage(`<div class="alert alert-danger">Error: ${error.message}</div>`);
         }
     }
 
     async deleteRegistrant(registrantId, eventId) {
-        this.template.updateMessage('<div class="loading">Deleting registration...</div>');
+        this.template.updateMessage('<div class="alert alert-info">Deleting registration...</div>');
 
         try {
             const response = await fetch(`${this.registrantsUrl}${registrantId}`, {
@@ -180,12 +176,12 @@ class Crud {
             });
             if (!response.ok) throw Error(response.message);
 
-            this.template.updateMessage(`<div class="success">Thank you. Your registration has been removed.</div>`);
+            this.template.updateMessage(`<div class="alert alert-success">Thank you. Your registration has been removed.</div>`);
 
             this.viewRegistrants(eventId);
 
         } catch (error) {
-            this.template.updateMessage(`<div class="error">Error: ${error.message}</div>`);
+            this.template.updateMessage(`<div class="alert alert-danger">Error: ${error.message}</div>`);
         }
     }
 
@@ -193,7 +189,7 @@ class Crud {
         const search =  this.sanitizeHTML(document.getElementById('search').value);
 
         if(!search) {
-            this.template.updateMessage('<div class="error">Error: Nothing to search.</div>');
+            this.template.updateMessage('<div class="alert alert-danger">Error: Nothing to search.</div>');
             return;
         }
 
@@ -244,12 +240,12 @@ class Crud {
         const notes =  this.sanitizeHTML(document.getElementById(`notes_${formId}`).value);
 
         if(!fullName || !email || !guests) {
-            this.template.updateMessage('<div class="error">Error: Please fill out the required fields.</div>');
+            this.template.updateMessage('<div class="alert alert-danger">Error: Please fill out the required fields.</div>');
             return;
         }
 
         if(!this.isValidEmail(email)) {
-            this.template.updateMessage('<div class="error">Error: Please enter a correct email.</div>');
+            this.template.updateMessage('<div class="alert alert-danger">Error: Please enter a correct email.</div>');
             return;
         }
 
