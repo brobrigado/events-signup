@@ -239,13 +239,18 @@ class Crud {
         const guests =  this.sanitizeHTML(document.getElementById(`guests_${formId}`).value);
         const notes =  this.sanitizeHTML(document.getElementById(`notes_${formId}`).value);
 
-        if(!fullName || !email || !guests) {
+        if(!fullName || !email) {
             this.template.updateMessage('<div class="alert alert-danger">Error: Please fill out the required fields.</div>');
             return;
         }
 
         if(!this.isValidEmail(email)) {
             this.template.updateMessage('<div class="alert alert-danger">Error: Please enter a correct email.</div>');
+            return;
+        }
+
+        if(guests < 0 || guests > 5) {
+            this.template.updateMessage('<div class="alert alert-danger">Error: Please limits guests from 0 - 5.</div>');
             return;
         }
 

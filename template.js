@@ -145,7 +145,7 @@ class Template {
             </div>
             <div class="input-group">
                 <label class="form-label" for="guests">Guests:</label>
-                <input class="form-control" type="number" id="guests_${event._id}" placeholder="Amount of guests" required>
+                <input class="form-control" type="number" id="guests_${event._id}" min="0" max="5" value="0" placeholder="Amount of guests (0-5)">
             </div>
             <div class="input-group">
                 <label class="form-label" for="notes">Notes:</label>
@@ -184,7 +184,7 @@ class Template {
             </div>
             <div class="input-group">
                 <label class="form-label" for="guests">Guests:</label>
-                <input class="form-control" type="number" id="guests_${registrant._id}" value="${registrant.guests}" required>
+                <input class="form-control" type="number" id="guests_${registrant._id}" value="${registrant.guests}"  min="0" max="5">
             </div>
             <div class="input-group">
                 <label class="form-label" for="notes">Notes:</label>
